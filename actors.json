@@ -1,0 +1,62 @@
+[
+  {
+    "actorName": "Tom Hanks",
+    "meanness": 1,
+    "niceness": 3
+  },
+  {
+    "actorName": "Joe Pesci",
+    "meanness": -3,
+    "niceness": 3
+  },
+  {
+    "actorName": "Anthony Hopkins",
+    "meanness": -2,
+    "niceness": 2
+  },
+  {
+    "actorName": "Meryl Streep",
+    "meanness": -1,
+    "niceness": 3
+  },
+  {
+    "actorName": "Al Pacino",
+    "meanness": 2,
+    "niceness": 0
+  },
+  {
+    "actorName": "Robert De Niro",
+    "meanness": 1,
+    "niceness": 1
+  },
+  {
+    "actorName": "Harrison Ford",
+    "meanness": -1,
+    "niceness": 2
+  },
+  {
+    "actorName": "Denzel Washington",
+    "meanness": -2,
+    "niceness": 3
+  },
+  {
+    "actorName": "Leonardo DiCaprio",
+    "meanness": 0,
+    "niceness": -1
+  },
+  {
+    "actorName": "Julia Roberts",
+    "meanness": -1,
+    "niceness": 2
+  },
+  {
+    "actorName": "Johnny Depp",
+    "meanness": 2,
+    "niceness": -3
+  },
+  {
+    "actorName": "Angelina Jolie",
+    "meanness": -3,
+    "niceness": 1
+  }
+]

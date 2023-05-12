@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Interactive Table with Bulma Styling and Add Row Button</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css"
+    />
+
+    <style>
+      .difference {
+        font-weight: bold;
+      }
+    </style>
+    <!-- Include jQuery library -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <!-- Include TableSorter plugin -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script> -->
+    <!-- <script src="table-sort.js"></script> -->
+    <link rel="stylesheet" href="sortable.min.css" />
+    <script src="sortable.min.js"></script>
+
+    <script>
+      function importData() {
+        fetch("actors.json")
+          .then((response) => response.json())
+          .then((data) => {
+            data.forEach((actor) => {
+              var actorName = actor.actorName;
+              document.querySelector("#new-actor-input").value = actorName;
+              addRow(); // Call addRow() without passing the actor name as an argument
+              var rowCount =
+                document.getElementById("table-body").children.length - 1;
+              //   document.querySelector(
+              //     "#table-body tr:last-child .actor-input"
+              //   ).value = actorName;
+              document.getElementById("meanness" + rowCount).value =
+                actor.meanness;
+              document.getElementById("niceness" + rowCount).value =
+                actor.niceness;
+              calculateDifference(rowCount);
+              //   sortTable();
+            });
+          })
+          .catch((error) => {
+            console.log("Error fetching JSON data:", error);
+          });
+        document.getElementById("import-button").style.display = "none";
+      }
+
+      function calculateDifference(row) {
+        var meannessSelect = document.getElementById("meanness" + row);
+        var nicenessSelect = document.getElementById("niceness" + row);
+
+        var meanness = parseInt(meannessSelect.value);
+        var niceness = parseInt(nicenessSelect.value);
+        var difference = niceness - meanness;
+
+        document.getElementById("difference" + row).textContent = difference;
+      }
+
+      function addRow() {
+        var tableBody = document.getElementById("table-body");
+        var newRow = document.createElement("tr");
+
+        var actorNameCell = document.createElement("td");
+        var actorNameInput = document.getElementById("new-actor-input");
+        var actorName = actorNameInput.value;
+        actorNameCell.textContent = actorName;
+        newRow.appendChild(actorNameCell);
+
+        var meannessSelect = document.createElement("td");
+        var meannessDropdown = document.createElement("div");
+        meannessDropdown.classList.add("select");
+        var meannessSelectElement = document.createElement("select");
+        meannessSelectElement.id = "meanness" + tableBody.children.length;
+        // meannessSelectElement.addEventListener("change", function () {
+        //   calculateDifference(tableBody.children.length);
+        // });
+        meannessSelectElement.setAttribute(
+          "onchange",
+          "calculateDifference(" + tableBody.children.length + ")"
+        );
+
+        for (var i = -3; i <= 3; i++) {
+          var option = document.createElement("option");
+          option.value = i;
+          option.textContent =
+            i + (i === -3 ? " meanest" : i === 3 ? " nicest" : "");
+          meannessSelectElement.appendChild(option);
+        }
+        meannessDropdown.appendChild(meannessSelectElement);
+        meannessSelect.appendChild(meannessDropdown);
+        newRow.appendChild(meannessSelect);
+
+        var nicenessSelect = document.createElement("td");
+        var nicenessDropdown = document.createElement("div");
+        nicenessDropdown.classList.add("select");
+        var nicenessSelectElement = document.createElement("select");
+        nicenessSelectElement.id = "niceness" + tableBody.children.length;
+        // nicenessSelectElement.addEventListener("change", function () {
+        //   calculateDifference(tableBody.children.length);
+        // });
+        nicenessSelectElement.setAttribute(
+          "onchange",
+          "calculateDifference(" + tableBody.children.length + ")"
+        );
+
+        for (var i = -3; i <= 3; i++) {
+          var option = document.createElement("option");
+          option.value = i;
+          option.textContent =
+            i + (i === -3 ? " meanest" : i === 3 ? " nicest" : "");
+          nicenessSelectElement.appendChild(option);
+        }
+        nicenessDropdown.appendChild(nicenessSelectElement);
+        nicenessSelect.appendChild(nicenessDropdown);
+        newRow.appendChild(nicenessSelect);
+
+        var differenceCell = document.createElement("td");
+        differenceCell.id = "difference" + tableBody.children.length;
+        differenceCell.classList.add("difference");
+        newRow.appendChild(differenceCell);
+
+        tableBody.appendChild(newRow);
+
+        actorNameInput.value = "";
+      }
+    </script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <!--
+          class="table tablesorter is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+          class="table is-bordered is-striped is-narrow is-hoverable tablesorter"
+        -->
+        <table id="my-table" class="sortable">
+          <thead>
+            <tr>
+              <th>Actors</th>
+              <th>Meanness of Characters Played</th>
+              <th>Niceness of Actual Person</th>
+              <th>Difference</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="field has-addons">
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            id="new-actor-input"
+            placeholder="New Actor"
+          />
+        </div>
+        <div class="control">
+          <button class="button is-primary" onclick="addRow()">Add Row</button>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="control">
+        <button
+          id="import-button"
+          class="button is-primary"
+          onclick="importData()"
+        >
+          Import Data
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
